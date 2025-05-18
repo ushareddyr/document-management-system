@@ -1,0 +1,3 @@
+com\docmanagement\service\AuthServiceTest.class
+com\docmanagement\service\UserServiceTest.class
+com\docmanagement\controller\AuthControllerTest.class

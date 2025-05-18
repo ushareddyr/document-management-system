@@ -1,0 +1,70 @@
+spring:
+  main:
+    allow-circular-references: true
+  application:
+    name: document-management-system
+  datasource:
+    url: jdbc:postgresql://localhost:5432/docmanagement
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        jdbc:
+          lob:
+            non_contextual_creation: true
+    show-sql: true
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+  redis:
+    host: redis
+    port: 6379
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
+  batch:
+    jdbc:
+      initialize-schema: never
+    job:
+      enabled: false
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+# JWT Configuration
+jwt:
+  secret: 5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437
+  expiration: 86400000 # 24 hours in milliseconds
+
+# Document Storage Configuration
+document:
+  storage:
+    location: ./document-storage
+
+# Swagger Configuration
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+
+# Logging Configuration
+logging:
+  level:
+    root: INFO
+    com.docmanagement: DEBUG
+    org.springframework.web: INFO
+    org.springframework.security: INFO
+    org.springframework.data: INFO
