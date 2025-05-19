@@ -6,19 +6,16 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      redis:
-        condition: service_healthy
       postgres:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
     environment:
       - SPRING_MAIN_ALLOW-CIRCULAR-REFERENCES=true
+      - SPRING_CACHE_TYPE=none
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/docmanagement
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
-      - SPRING_REDIS_HOST=redis
-      - SPRING_REDIS_PORT=6379
       - SPRING_RABBITMQ_HOST=rabbitmq
       - SPRING_RABBITMQ_PORT=5672
       - SPRING_RABBITMQ_USERNAME=guest
@@ -43,18 +40,6 @@ services:
       timeout: 5s
       retries: 5
 
-  redis:
-    image: redis:7-alpine
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis-data:/data
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 5s
-      timeout: 3s
-      retries: 5
-
   rabbitmq:
     image: rabbitmq:3-management-alpine
     ports:
@@ -73,6 +58,5 @@ services:
 
 volumes:
   postgres-data:
-  redis-data:
   rabbitmq-data:
   document-storage:

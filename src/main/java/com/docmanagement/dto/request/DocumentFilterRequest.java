@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -20,8 +21,12 @@ public class DocumentFilterRequest {
     private String fileType;
     private Long uploadedById;
     private DocumentStatus status;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime createdAfter;
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime createdBefore;
+
     private String sortBy = "createdAt";
     private String sortDirection = "desc";
     private int page = 0;

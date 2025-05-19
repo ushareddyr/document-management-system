@@ -16,19 +16,26 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public interface DocumentRepository extends JpaRepository<Document, Long> {
+public interface DocumentRepository extends JpaRepository<Document, Long>, CustomDocumentRepository  {
 
     Page<Document> findByUploadedBy(User user, Pageable pageable);
     
     Page<Document> findByStatus(DocumentStatus status, Pageable pageable);
-    
-    @Query("SELECT d FROM Document d WHERE " +
-           "(:title IS NULL OR LOWER(d.title) LIKE LOWER(CONCAT('%', :title, '%'))) AND " +
-           "(:fileType IS NULL OR d.fileType = :fileType) AND " +
-           "(:uploadedById IS NULL OR d.uploadedBy.id = :uploadedById) AND " +
-           "(:status IS NULL OR d.status = :status) AND " +
-           "(:createdAfter IS NULL OR d.createdAt >= :createdAfter) AND " +
-           "(:createdBefore IS NULL OR d.createdAt <= :createdBefore)")
+
+    @Query(value = "SELECT d FROM Document d WHERE " +
+            "(:title IS NULL OR LOWER(d.title) LIKE LOWER(CONCAT('%', :title, '%'))) AND " +
+            "(:fileType IS NULL OR d.fileType = :fileType) AND " +
+            "(:uploadedById IS NULL OR d.uploadedBy.id = :uploadedById) AND " +
+            "(:status IS NULL OR d.status = :status) AND " +
+            "(:createdAfter IS NULL OR d.createdAt >= :createdAfter) AND " +
+            "(:createdBefore IS NULL OR d.createdAt <= :createdBefore)",
+            countQuery = "SELECT COUNT(d) FROM Document d WHERE " +
+                    "(:title IS NULL OR LOWER(d.title) LIKE LOWER(CONCAT('%', :title, '%'))) AND " +
+                    "(:fileType IS NULL OR d.fileType = :fileType) AND " +
+                    "(:uploadedById IS NULL OR d.uploadedBy.id = :uploadedById) AND " +
+                    "(:status IS NULL OR d.status = :status) AND " +
+                    "(:createdAfter IS NULL OR d.createdAt >= :createdAfter) AND " +
+                    "(:createdBefore IS NULL OR d.createdAt <= :createdBefore)", nativeQuery = false)
     Page<Document> findByFilters(
             @Param("title") String title,
             @Param("fileType") String fileType,

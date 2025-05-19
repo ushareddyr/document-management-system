@@ -129,13 +129,7 @@ public class DocumentService {
         if (filterRequest.getKeyword() != null && !filterRequest.getKeyword().isEmpty()) {
             documentPage = documentRepository.findByKeyword(filterRequest.getKeyword(), pageable);
         } else {
-            documentPage = documentRepository.findByFilters(
-                    filterRequest.getTitle(),
-                    filterRequest.getFileType(),
-                    filterRequest.getUploadedById(),
-                    filterRequest.getStatus(),
-                    filterRequest.getCreatedAfter(),
-                    filterRequest.getCreatedBefore(),
+            documentPage = documentRepository.findByFilters(filterRequest,
                     pageable
             );
         }

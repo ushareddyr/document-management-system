@@ -6,11 +6,13 @@ import com.docmanagement.dto.response.ApiResponse;
 import com.docmanagement.dto.response.JwtResponse;
 import com.docmanagement.model.Role;
 import com.docmanagement.model.User;
+import com.docmanagement.security.JwtTokenProvider;
 import com.docmanagement.service.AuthService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -26,7 +28,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(AuthController.class)
+@WebMvcTest(controllers = AuthController.class)
+@AutoConfigureMockMvc(addFilters = false)
 class AuthControllerTest {
 
     @Autowired
@@ -37,6 +40,9 @@ class AuthControllerTest {
 
     @MockBean
     private AuthService authService;
+
+    @MockBean
+    private JwtTokenProvider jwtTokenProvider;
 
     private LoginRequest loginRequest;
     private RegisterRequest registerRequest;
