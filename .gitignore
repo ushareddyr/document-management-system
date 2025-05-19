@@ -7,3 +7,5 @@
 .idea/
 *.swp
 .DS_Store
+/mvnw
+/mvnw.cmd
